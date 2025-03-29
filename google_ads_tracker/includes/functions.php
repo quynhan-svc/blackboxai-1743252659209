@@ -1,19 +1,8 @@
 <?php
 require_once 'config.php';
 
-// Database initialization
-function initDatabase() {
-    if (!file_exists(DB_FILE)) {
-        $db = new SQLite3(DB_FILE);
-        $schema = file_get_contents(DB_SCHEMA);
-        if (!$db->exec($schema)) {
-            throw new Exception("Failed to initialize database");
-        }
-    }
-    $db = new SQLite3(DB_FILE);
-    $db->busyTimeout(5000);
-    return $db;
-}
+require_once 'database.php';
+
 
 // Installation check
 function checkInstallation() {
@@ -40,7 +29,7 @@ function checkAuth() {
 
 // Improved user creation with password hashing
 function createUser($username, $email, $password, $role = 'report_viewer') {
-    $db = initDatabase();
+    global $db;
     $stmt = $db->prepare("INSERT INTO users (username, email, password_md5, role, created_at) VALUES (?, ?, ?, ?, datetime('now'))");
     $stmt->bindValue(1, sanitizeInput($username), SQLITE3_TEXT);
     $stmt->bindValue(2, sanitizeInput($email), SQLITE3_TEXT);

@@ -14,12 +14,16 @@ if (!file_exists(DB_DIR)) {
 
 // Initialize SQLite Database
 function initDatabase() {
-    if (!file_exists(DB_PATH)) {
-        $db = new SQLite3(DB_PATH);
+    if (!file_exists(DB_FILE)) {
+        $db = new SQLite3(DB_FILE);
         $schema = file_get_contents(DB_SCHEMA);
-        $db->exec($schema);
+        if (!$db->exec($schema)) {
+            die('Failed to initialize database tables');
+        }
     }
-    return new SQLite3(DB_PATH);
+    $db = new SQLite3(DB_FILE);
+    $db->busyTimeout(5000);
+    return $db;
 }
 
 $db = initDatabase();

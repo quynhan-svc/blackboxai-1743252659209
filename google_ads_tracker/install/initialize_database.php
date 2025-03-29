@@ -3,9 +3,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once __DIR__.'/../includes/config.php';
+require_once __DIR__.'/../includes/init.php';
 
 try {
+    // Verify configuration
+    if (!defined('DB_FILE') || !defined('DB_SCHEMA') || !defined('DB_DIR')) {
+        throw new Exception("Database configuration not properly initialized");
+    }
+
     // Create database connection
     $db = new SQLite3(DB_FILE);
     $db->enableExceptions(true);
@@ -49,6 +54,9 @@ try {
     }
     
     // Create installed flag
+    if (!file_exists(DB_DIR)) {
+        mkdir(DB_DIR, 0755, true);
+    }
     file_put_contents(DB_DIR.'/installed.lock', '1');
     
 } catch (Exception $e) {

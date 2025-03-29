@@ -34,4 +34,4 @@
 - Cấu hình giao diện: `assets/css/admin.css`
 
 ## Hỗ trợ
-Liên hệ hỗ trợ qua email: support@google-adstracker.com
+Liên hệ hỗ trợ qua email: hautran@solar-nhatrang.com

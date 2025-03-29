@@ -1,6 +1,23 @@
 <?php
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if required files exist
+if (!file_exists(__DIR__.'/../includes/config.php')) {
+    die("Error: Missing config.php file");
+}
+if (!file_exists(__DIR__.'/../includes/functions.php')) {
+    die("Error: Missing functions.php file");
+}
+
 require_once __DIR__.'/../includes/config.php';
 require_once __DIR__.'/../includes/functions.php';
+
+// Verify database directory is writable
+if (file_exists(DB_DIR) && !is_writable(DB_DIR)) {
+    die("Error: Database directory is not writable");
+}
 
 // Create database directory if not exists
 if (!file_exists(DB_DIR)) {
@@ -18,10 +35,23 @@ if (file_exists(DB_FILE)) {
 // Handle installation form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Create database
+        // Create database with test query
         $db = new SQLite3(DB_FILE);
         if (!$db) {
-            throw new Exception("Failed to create database");
+            throw new Exception("Failed to create database. Check if:");
+        }
+        
+        // Test database operations
+        if (!$db->exec('CREATE TABLE install_test (id INTEGER PRIMARY KEY, test TEXT)')) {
+            throw new Exception("Failed to create test table. Check permissions.");
+        }
+        
+        if (!$db->exec('INSERT INTO install_test (test) VALUES ("test")')) {
+            throw new Exception("Failed to insert test data.");
+        }
+        
+        if (!$db->exec('DROP TABLE install_test')) {
+            throw new Exception("Failed to clean up test table.");
         }
 
         // Create tables
@@ -71,10 +101,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     } catch (Exception $e) {
         // Clean up on failure
-        if (isset($db) && file_exists(DB_FILE)) {
-            unlink(DB_FILE);
+        if (isset($db)) {
+            @$db->exec('DROP TABLE IF EXISTS install_test');
+            @$db->close();
         }
-        $error = "Installation failed: " . $e->getMessage();
+        if (file_exists(DB_FILE)) {
+            @unlink(DB_FILE);
+        }
+        
+        // Detailed error message
+        $error = "<div class='alert alert-danger'>";
+        $error .= "<h3>Installation Failed</h3>";
+        $error .= "<p>" . htmlspecialchars($e->getMessage()) . "</p>";
+        $error .= "<h4>Troubleshooting:</h4>";
+        $error .= "<ul>";
+        $error .= "<li>Verify PHP has write permissions to the database directory</li>";
+        $error .= "<li>Check if SQLite3 is enabled in php.ini</li>";
+        $error .= "<li>Ensure PHP version 7.4+ is installed</li>";
+        $error .= "</ul>";
+        $error .= "<p>Check server error logs for more details.</p>";
+        $error .= "</div>";
     }
 }
 ?>

@@ -43,12 +43,14 @@
   - CSRF protection
 
 ## URL quan trọng
-- Trang chủ: `http://localhost:8000`
-- Bảng điều khiển: `http://localhost:8000/admin/dashboard.php`
-- Quản lý người dùng: `http://localhost:8000/admin/users.php`
-- Báo cáo: `http://localhost:8000/admin/reports.php`
-- Cài đặt: `http://localhost:8000/admin/settings.php`
-- Đăng nhập: `http://localhost:8000/admin/login.php`
+- Trang chủ: `https://<domain>/google_ads_tracker`
+- Bảng điều khiển: `https://<domain>/google_ads_tracker/admin/dashboard.php`
+- Quản lý người dùng: `https://<domain>/google_ads_tracker/admin/users.php`
+- Báo cáo: `https://<domain>/google_ads_tracker/admin/reports.php`
+- Cài đặt: `https://<domain>/google_ads_tracker/admin/settings.php`
+- Đăng nhập: `https://<domain>/google_ads_tracker/admin/login.php`
+
+Lưu ý: Thay `<domain>` bằng tên miền thực tế của bạn
 
 ## Hướng Dẫn Sử Dụng
 1. Đăng nhập bằng tài khoản admin (admin/admin123)

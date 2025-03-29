@@ -33,5 +33,14 @@
 - Cấu hình địa lý: `includes/geoip.php`
 - Cấu hình giao diện: `assets/css/admin.css`
 
+## WordPress Integration
+The system includes a WordPress plugin for easy integration:
+1. Plugin location: `wordpress/google-ads-tracker.php`
+2. Features:
+   - Automatic script injection in footer
+   - REST API endpoint for tracking
+   - Data forwarding to main tracking system
+3. Installation guide: See `wordpress/INSTALL.md`
+
 ## Hỗ trợ
 Liên hệ hỗ trợ qua email: hautran@solar-nhatrang.com

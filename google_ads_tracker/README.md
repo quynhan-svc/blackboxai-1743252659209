@@ -42,5 +42,21 @@ The system includes a WordPress plugin for easy integration:
    - Data forwarding to main tracking system
 3. Installation guide: See `wordpress/INSTALL.md`
 
+## What's New in Version 2.1
+- **Cải thiện hệ thống cài đặt**:
+  - Tự động tạo thư mục database
+  - Thêm dữ liệu mẫu khi cài đặt
+  - Kiểm tra trạng thái cài đặt tự động
+
+- **Nâng cấp bảo mật**:
+  - Thay thế md5 bằng password_hash
+  - Cải thiện xử lý lỗi database
+  - Kiểm tra cài đặt trước khi truy cập admin
+
+- **Tích hợp mới**:
+  - Hệ thống phát hiện cài đặt chưa hoàn tất
+  - Tự động chuyển hướng đến trang cài đặt
+  - Ghi nhận thời gian tạo user
+
 ## Hỗ trợ
 Liên hệ hỗ trợ qua email: hautran@solar-nhatrang.com
